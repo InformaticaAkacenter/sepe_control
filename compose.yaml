@@ -1,0 +1,42 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      SEPE_API_ENABLED: ${SEPE_API_ENABLED:-0}
+      SEPE_INTERNAL_BASE_URL: ${SEPE_INTERNAL_BASE_URL:-}
+      SEPE_INTERNAL_USERNAME: ${SEPE_INTERNAL_USERNAME:-}
+      SEPE_INTERNAL_PASSWORD: ${SEPE_INTERNAL_PASSWORD:-}
+      SEPE_GESTION_GRAPHQL_URL: ${SEPE_GESTION_GRAPHQL_URL:-}
+      SEPE_GESTION_TOKEN: ${SEPE_GESTION_TOKEN:-}
+      SEPE_GESTION_AUTH_SCHEME: ${SEPE_GESTION_AUTH_SCHEME:-Bearer}
+      SEPE_DATA: /data
+      SEPE_BEHIND_PROXY: "1"
+      SEPE_ORIGIN: https://${SEPE_DOMAIN:?Define SEPE_DOMAIN en .env}
+    volumes:
+      - sepe_data:/data
+    expose:
+      - "8000"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+  caddy:
+    image: caddy:2.10.2-alpine
+    restart: unless-stopped
+    environment:
+      SEPE_DOMAIN: ${SEPE_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+volumes:
+  sepe_data:
+  caddy_data:
+  caddy_config:

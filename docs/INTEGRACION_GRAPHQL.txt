@@ -1,0 +1,6 @@
+DOCUMENTACIÓN SUSTITUIDA EN LA VERSIÓN 2.0
+
+La fuente interna es REST con Basic; Gestión es GraphQL con token.
+Los conectores están implementados con los esquemas aportados.
+Consultar INTEGRACION_APIS.txt para instalación, contratos y límites.
+No se han realizado conexiones reales; la activación exige URL y configuración.

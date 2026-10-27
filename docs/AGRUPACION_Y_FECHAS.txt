@@ -1,0 +1,115 @@
+SEPE CONTROL 1.1 — FECHAS Y RESTO DE LA AGRUPACIÓN
+
+ACTUALIZACIÓN DE UNA INSTALACIÓN EXISTENTE
+1. Hacer copia de la base con el comando backup del README.
+2. Sustituir el código por esta versión; conservar .env y el volumen sepe_data.
+3. Ejecutar docker compose up -d --build.
+4. No borrar volúmenes ni copiar una base de ejemplo sobre la existente.
+La ampliación del esquema es compatible con la versión 1.0. Las cuentas,
+matrículas y tareas se conservan; los campos nuevos se incorporan al cargar.
+
+FECHAS LÍMITE
+La sección Fechas límite presenta un registro por expediente. La fecha afecta
+a todos sus bloques, incluidos los compartidos entre Akacenter y Juan Pablo.
+Se conservan las fechas originales y celdas del Excel, incluso tras corregirlas.
+
+- Provisional: fecha de programación sin confirmar. Permite calcular y guardar
+  borradores de grupos, pero no genera tareas automáticas de captación.
+- Confirmada: respaldada por notificación, resolución modificativa o prórroga.
+  El administrador introduce fecha, documento y página; la fecha de notificación
+  es opcional, si consta. No se calcula el fin desde la firma del documento.
+- En revisión: impide generar nuevas propuestas hasta resolver la duda.
+
+El historial registra fecha anterior, evidencia, usuario y momento del cambio.
+Las alertas muestran vencimiento, curso que acaba fuera de plazo, fecha de curso
+incoherente y propuesta guardada que ya no cabe. Una nueva fecha no mueve por sí
+sola los grupos existentes. Las tareas generadas por el planificador quedan
+marcadas con plazo pendiente cuando corresponda; los gestores deben revisar la
+propuesta. Las tareas manuales permanecen bajo su control.
+
+Ya se señalan en las fuentes iniciales Metal (04/09/2026), Servicios a empresas
+(21/10/2026) y un curso de Administración con fin anterior al inicio. No se ha
+supuesto automáticamente que esos años deban ser 2027.
+
+RESULTADOS DE SOCIOS EXTERNOS
+1. Entrar como administrador y abrir Agrupación.
+2. Añadir cada entidad con razón social, NIF y expedientes en que participa.
+   La aplicación muestra el ID asignado. Usarlo en los CSV.
+   No añadir Akacenter ni Juan Pablo: sus matrículas ya están en la base.
+3. Introducir un resumen por socio y expediente, con fecha de corte y referencia
+   al archivo, hoja/celda o página. Puede hacerse por formulario o CSV.
+4. Dejar vacío lo desconocido. Escribir 0 únicamente si está confirmado.
+   Certificados válidos es obligatorio al validar; un borrador puede omitirlo.
+   Prioritarios es la unión de colectivos,
+   no la suma de sus categorías. Los campos de sector se refieren a certificados
+   ocupados; no incluir desempleados en sector propio u otros sectores.
+5. Completar las CCAA de domicilio de certificados válidos. Si no suman el total,
+   el indicador territorial queda incompleto. Una suma superior se rechaza.
+6. Validar solo después de revisar la fuente. Los cortes pendientes se muestran
+   pero no se incorporan a los cálculos. Solo hay un corte activo por socio y
+   expediente: el nuevo sustituye al anterior, que se conserva como histórico.
+   Reimportar el mismo ID corrige ese informe y conserva su historial.
+   No se permite sustituir automáticamente un corte por otro de fecha anterior.
+7. En Composición y cierre local, confirmar que se han registrado todos los socios
+   y citar el documento de composición. Declarar la fecha de corte y evidencia de
+   que las matrículas de Akacenter y Juan Pablo están completas para ese expediente.
+   Cualquier cambio o importación local anula esta declaración hasta revisarla.
+8. El panel distingue cobertura parcial de cobertura declarada. Para esta última
+   se necesita composición confirmada, un corte externo validado por cada socio,
+   cierre local y la misma fecha de corte. No equivale a certificación de SEPE.
+
+Los porcentajes consolidados se calculan sumando numeradores y denominadores,
+no haciendo la media de porcentajes de socios. Ver cálculo y fuente muestra cada
+informe incorporado y sus recuentos. Los indicadores locales no cambian.
+Los resultados externos no se convierten en alumnos ficticios ni se añaden a
+las tareas de captación locales. Los agregados no permiten detectar una persona
+repetida entre socios, ni comprobar simultaneidad, asistencia individual o B.1/B.2.
+Para esos controles hace falta el detalle individual o la integración posterior.
+
+CSV DE IMPORTACIÓN
+Archivo UTF-8; preferiblemente separado por punto y coma, con cabecera intacta.
+Puede editarse con Excel e importar desde Agrupación. Todo el lote se valida
+antes de guardarse; un error impide cualquier cambio del lote.
+Una sola fila por socio y expediente en cada lote. No incluir un total de toda la
+agrupación: duplicaría a quienes ya están representados.
+
+id: ID estable del informe, por ejemplo socio1-F251838AA-20261026.
+partner: ID interno del socio, mostrado en la tabla de entidades.
+program: expediente, por ejemplo F251838AA.
+as_of: corte de los datos, AAAA-MM-DD, no una fecha futura.
+source: nombre del documento y localizador.
+verified: true o false; también admite sí/si o 1 como validado.
+certified: participantes certificados válidos de este socio y expediente.
+unemployed: desempleados dentro de certified, según situación al inicio.
+priority: participantes prioritarios dentro de certified, sin doble cómputo.
+own_sector / other_sector: ocupados certificados del sector propio / otros.
+finalized: finalizados validados, sin sumar abandonos por el hecho de financiarse.
+target: objetivo aprobado de participantes de este socio y expediente.
+final_hours / target_hours: horas participante finalizadas / objetivo.
+certified_hours / physical_hours: horas participante certificadas totales /
+  presenciales o aula virtual. No confundir con horas de duración de un solo curso.
+Los campos desconocidos pueden quedar vacíos; certified es obligatorio cuando
+verified sea true.
+
+Columnas de CCAA
+ccaa_01 Andalucía
+ccaa_02 Aragón
+ccaa_03 Principado de Asturias
+ccaa_04 Illes Balears
+ccaa_05 Canarias
+ccaa_06 Cantabria
+ccaa_07 Castilla y León
+ccaa_08 Castilla-La Mancha
+ccaa_09 Cataluña
+ccaa_10 Comunitat Valenciana
+ccaa_11 Extremadura
+ccaa_12 Galicia
+ccaa_13 Comunidad de Madrid
+ccaa_14 Región de Murcia
+ccaa_15 Comunidad Foral de Navarra
+ccaa_16 País Vasco
+ccaa_17 La Rioja
+ccaa_18 Ceuta
+ccaa_19 Melilla
+
+El CSV no incluye ni requiere nombres de alumnos, DNI ni datos médicos.

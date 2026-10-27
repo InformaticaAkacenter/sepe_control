@@ -1,0 +1,257 @@
+[
+  {
+    "file": ".dockerignore",
+    "bytes": 54,
+    "sha256": "860c05a7dfa95e1ca203943d3a257fbe4ed52a807786ab107a4b8f2352f5303b"
+  },
+  {
+    "file": ".env.example",
+    "bytes": 507,
+    "sha256": "53efa1474b22eb00dd9a9c123d25841458f5914befb20532e6d810b96e4b53a0"
+  },
+  {
+    "file": "Caddyfile",
+    "bytes": 95,
+    "sha256": "7cee0675e21dccf3209c027a86e9a03d3e17483d886dd3af905a44ae70c9f3a3"
+  },
+  {
+    "file": "Dockerfile",
+    "bytes": 428,
+    "sha256": "2ac728a1c39104a2be2fec1821f542d11bfb734b47cef30ea588b595ca232f9d"
+  },
+  {
+    "file": "README.txt",
+    "bytes": 6990,
+    "sha256": "701cbaa7d8f225e8c89242449756a35106ed2859de5313d27648dd74ec87be21"
+  },
+  {
+    "file": "app.py",
+    "bytes": 21754,
+    "sha256": "ac5f8886d21a8ee2b2280b806bb1be436635eb4fa80a753110c0a9190a392c32"
+  },
+  {
+    "file": "compose.yaml",
+    "bytes": 1124,
+    "sha256": "f1648a997166fe3753f89167eb6798e87bf59024839dddb72e0f3419a477fb90"
+  },
+  {
+    "file": "consortium.py",
+    "bytes": 16509,
+    "sha256": "3bd99d6cccd7b803f8c04340b078b7ae38e92e3f9199a79ecf9d7347247c117b"
+  },
+  {
+    "file": "docs/AGRUPACION_Y_FECHAS.txt",
+    "bytes": 6434,
+    "sha256": "66803d0eea09bc670598d24771f365c69e4c1e6ca34ba865d235aef19d465641"
+  },
+  {
+    "file": "docs/INTEGRACION_APIS.txt",
+    "bytes": 10337,
+    "sha256": "06e3f85b24180adc9fc54a298174cc7a6010efde5685fb6df46517bdac2b6acb"
+  },
+  {
+    "file": "docs/INTEGRACION_GRAPHQL.txt",
+    "bytes": 332,
+    "sha256": "db4c982bd948d4001c9cd21a90adb44c0fe920898dbf705e440dfe300b20ac20"
+  },
+  {
+    "file": "docs/Informe_SEPE_y_manual.docx",
+    "bytes": 49696,
+    "sha256": "945bc483623b45a78e25490157db6ab5ee05df81aa502e072da1f28efe76cc6f"
+  },
+  {
+    "file": "docs/importacion_ejemplo.json",
+    "bytes": 521,
+    "sha256": "9425fd4aa043c4d41ee7e0c245cf5feb359cd9f5ca86b2a0effd604615064ec3"
+  },
+  {
+    "file": "docs/plantilla_resultados_socios.csv",
+    "bytes": 324,
+    "sha256": "01bc9021cc8a60f142c42ed356f70d22d8efb8d2ea77bb6566d667535e76ed39"
+  },
+  {
+    "file": "engine.py",
+    "bytes": 24247,
+    "sha256": "833d8fd48d8d00bff5f1003071d8db3704f819e914078f4921c351c80b5524d8"
+  },
+  {
+    "file": "integrations/adapters.py",
+    "bytes": 797,
+    "sha256": "74e94b9445591ce1a40f9feb92d93c4dd2daffb64fbc1a0cd44c8670acecdf2f"
+  },
+  {
+    "file": "integrations/clients.py",
+    "bytes": 7978,
+    "sha256": "065ded82cfe38750ddba6e20ca5aed134b62e162affd0af4b930ac611c00bfce"
+  },
+  {
+    "file": "integrations/demo.py",
+    "bytes": 1350,
+    "sha256": "29cb6d21042f3d82ee3296b6a893b787e7d316ea80983fd7d05cef1a02c1911f"
+  },
+  {
+    "file": "integrations/routes.py",
+    "bytes": 6450,
+    "sha256": "a09d197667e01189dd619e60491b459325fb7e7e1d9cf6bed5f30e387352fa75"
+  },
+  {
+    "file": "integrations/schemas/gestion.graphql",
+    "bytes": 26088,
+    "sha256": "1f4cccaa713347873a62b70d0acb101a330e8b63a43b63d0d7821a3ec9000d39"
+  },
+  {
+    "file": "integrations/schemas/interna.openapi.json",
+    "bytes": 49489,
+    "sha256": "b93a6799129a7a519354e5875f062b9b026d1ef2185bd52af17da375db7d4e48"
+  },
+  {
+    "file": "integrations/sync.py",
+    "bytes": 19544,
+    "sha256": "0e29e6152195241480e6bd4b91f5a688a0c82fa70e16a68ee5971ad5e810e5d5"
+  },
+  {
+    "file": "package.json",
+    "bytes": 91,
+    "sha256": "82d25cd35128f9f224a1a876c9f1a65e38c34639c0dcc15d6707a3b03484a9ef"
+  },
+  {
+    "file": "preview.py",
+    "bytes": 398,
+    "sha256": "a2da45e67e81afd384f81af9a227cc7de71ce2a88dfedef5459d9eff87551962"
+  },
+  {
+    "file": "requirements-dev.txt",
+    "bytes": 34,
+    "sha256": "3c3ad6730cf0c0417b77bae38e53c11fa8cd96a34f2f8956998bafc0aaf3ef17"
+  },
+  {
+    "file": "requirements.txt",
+    "bytes": 30,
+    "sha256": "565f15636496b14157b0772ea7c96ce08e35afc333dfa12399a415e8c0152223"
+  },
+  {
+    "file": "restore.py",
+    "bytes": 1612,
+    "sha256": "ac2bac17c0fae5b3832712bd38f1a1506aaf045d96d5ff1e4f04aee2c76b1c21"
+  },
+  {
+    "file": "seed.json",
+    "bytes": 220325,
+    "sha256": "7d3afddfa0cfc46cd7907cb2aa69df7924783c0d32cde59eda497ad3b0906bf4"
+  },
+  {
+    "file": "sources/F251817AA.pdf",
+    "bytes": 3280196,
+    "sha256": "ae33b2242fb9eff718f333aa5db9693d6fed91d89f3693fe24e5302ec363340b"
+  },
+  {
+    "file": "sources/F251820AA.pdf",
+    "bytes": 3526428,
+    "sha256": "7bec373b55a783d6e76db28a05b5f9c9aa0dd399247e2a0af0bb5ac9e530390e"
+  },
+  {
+    "file": "sources/F251824AA.pdf",
+    "bytes": 237700,
+    "sha256": "352342fd39201ee791b3a4fe3ea5f2973f3c091d451d2b5dba47d576e55d20e3"
+  },
+  {
+    "file": "sources/F251825AA.pdf",
+    "bytes": 406350,
+    "sha256": "b22f68a0e8e59af35ed4a92477d47c212725e29325f4ed80c74171a10c6f5b77"
+  },
+  {
+    "file": "sources/F251828AA.pdf",
+    "bytes": 3015073,
+    "sha256": "6e04810071b365ee6ee02beedc9e11b96f9cf59f8ba0f3f75b6f4be049a5ffa5"
+  },
+  {
+    "file": "sources/F251830AA.pdf",
+    "bytes": 467208,
+    "sha256": "c0d6d11cf6f0c809aed404c9c31f82d1b47b154838d48a289bbcff87db01c3b6"
+  },
+  {
+    "file": "sources/F251832AA.pdf",
+    "bytes": 3766195,
+    "sha256": "85499f2f8393967e36a5200c28ed7bdd393ea9f9af7e7c0aeea6a9b1308142c4"
+  },
+  {
+    "file": "sources/F251834AA.pdf",
+    "bytes": 8148738,
+    "sha256": "51a92c01f1d5a5c808476d2c9449996e2bf95aa8bf81c03869d7bf4e23a4eb64"
+  },
+  {
+    "file": "sources/F251835AA.pdf",
+    "bytes": 3697591,
+    "sha256": "85dce0ce057ea08c85c4996452200f3505022965095adb3863a599af2f1d63b8"
+  },
+  {
+    "file": "sources/F251838AA.pdf",
+    "bytes": 2771156,
+    "sha256": "51d2fe26b901405845e31d4a0221cc5c7c224b633df6e65b3fab98c56fbd733a"
+  },
+  {
+    "file": "sources/akacenter.xlsx",
+    "bytes": 258844,
+    "sha256": "9da5f4df62e0c59616c5f6f21ed81e28ec82119fab8db62a54d7eac2caf912ae"
+  },
+  {
+    "file": "sources/anexo_vi.pdf",
+    "bytes": 159984,
+    "sha256": "80bea6dfe6ff442c5a38efe4d6679de139787ec214e50cfdf4acd18e5019184b"
+  },
+  {
+    "file": "sources/anexo_vii.pdf",
+    "bytes": 189254,
+    "sha256": "f4d7db8bc962dac62f0f78cdb14abfb0fbb2c956ce9d8476dda8d8f6b9ca8d70"
+  },
+  {
+    "file": "sources/convocatoria.pdf",
+    "bytes": 8267443,
+    "sha256": "86a37c49dd4e05d2ed24b29e7e755296841255870470573a7dd3f786657870f7"
+  },
+  {
+    "file": "sources/juan_pablo.xlsx",
+    "bytes": 510085,
+    "sha256": "21c5297f3f78907970cf96c50a375972c3317374880550efe515092e49b31653"
+  },
+  {
+    "file": "static/app.js",
+    "bytes": 51016,
+    "sha256": "e906a0ecf936a98c87bbf27ab9e9e46ecea9e7897085ef601525c814f3f50294"
+  },
+  {
+    "file": "static/index.html",
+    "bytes": 537,
+    "sha256": "dab8d4b255cc652b4d5451f718f6e9801d3ed9e83db3beeae58bb5b5554b77ba"
+  },
+  {
+    "file": "static/integrations.js",
+    "bytes": 12111,
+    "sha256": "e481332b4a71ea9a148e03f7743e1225daddfcea044dcc7872d394d2ea73ba77"
+  },
+  {
+    "file": "static/style.css",
+    "bytes": 7655,
+    "sha256": "53a19794f7e51051802165e2fdf9fc566eba2aca2604a68ede215e76a44abcb5"
+  },
+  {
+    "file": "tests/test_app.py",
+    "bytes": 4249,
+    "sha256": "bcc2687e88b2f610a1b43c0b37c69c55c25fed7a2a2daf927fcec83ae38137f1"
+  },
+  {
+    "file": "tests/test_consortium.py",
+    "bytes": 6653,
+    "sha256": "d94161aef598fc6658137d4d18fb596b05ca1a663649cd4e9446cee5934e4384"
+  },
+  {
+    "file": "tests/test_engine.py",
+    "bytes": 3983,
+    "sha256": "60c4640825d9cd65bcd8dde20d01bc6b53b18cd69f435208625e9059383b5448"
+  },
+  {
+    "file": "tests/test_integrations.py",
+    "bytes": 12939,
+    "sha256": "841382d2ac51c78b255ee9e42fb9681042b88b9b497fd00ed8f837ee739daf18"
+  }
+]

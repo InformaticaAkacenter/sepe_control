@@ -1,0 +1,21 @@
+{
+  "schema_version": "sepe-import-v1",
+  "source": "EJEMPLO FICTICIO — sustituir por exportación de gestión",
+  "enrollments": [
+    {
+      "id": "ejemplo-001",
+      "person": "ID-INTERNO-001",
+      "course": "aka_F251838AA_2_r2",
+      "state": "matriculado",
+      "employment": "desconocido",
+      "sector_relation": "desconocido",
+      "ccaa": "",
+      "company": "",
+      "validated": false,
+      "certified_valid": false,
+      "priority": null,
+      "progress": null,
+      "evidence": ""
+    }
+  ]
+}

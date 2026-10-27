@@ -1,0 +1,167 @@
+SEPE CONTROL 2.0 — API INTERNA REST Y GESTIÓN GRAPHQL
+26 de octubre de 2026
+
+ESTADO Y ESQUEMAS
+
+Conectores de lectura implementados y probados con respuestas ficticias. No se
+han consultado las APIs reales ni publicado la aplicación. Sin conexión se puede
+seguir trabajando con carga manual, JSON y resultados agregados de socios por CSV.
+
+El OpenAPI recibido es OpenAPI 3.1, «API Gestion Interna», versión 1.0.10. Describe
+una pasarela de Gestión. Alumno no declara empresa, sector, situación laboral ni
+CCAA explícita. Tampoco declara autenticación: Basic se implementa por instrucción
+del usuario y debe confirmarse con el proveedor. No se presupone que este contrato
+sea el portal correcto. Se conserva en integrations/schemas/interna.openapi.json.
+El archivo graphql recibido, aunque terminaba en .json, contiene SDL válido.
+Se conserva en integrations/schemas/gestion.graphql. No incluye URL ni prefijo
+de token. Bearer es una opción inicial configurable, pendiente de confirmar.
+
+FUENTES DE CADA DATO
+
+REST: nombre, domicilio, empresa, sector, situación laboral al inicio y prioridad.
+Solo se usan campos documentados. Los ausentes quedan desconocidos. No se rellenan
+desde campos homónimos de Gestión.
+GraphQL: identidad de matrícula y alumno, estadomatricula, falta, fbaja y motivobaja.
+El estado de matrícula no determina la situación laboral.
+Revisión local: validated y certified_valid. Finalizado no acredita asistencia,
+aprendizaje ni certificación válida. Ambos valores empiezan en falso. No existe
+un porcentaje directo de avance en el SDL recibido: progress queda vacío salvo
+registro manual con evidencia.
+
+La matrícula usa gestion_<ID_MATRICULA> y la persona gestion:<ID_ALUMNO>. Se busca
+el ID REST por NIF y se contrasta con la ficha. No se unen personas por nombre.
+El NIF se usa para conciliar, sin incorporarlo a la matrícula normalizada ni al
+historial de consultas. Contradicciones de documentos o una ficha compartida entre
+IDs distintos excluyen la fila conflictiva. La búsqueda por NIF tiene respuesta
+sin tipo en OpenAPI: solo se admite un ID positivo, una cadena numérica, {"id": N}
+o una lista de un único ID. Otras formas requieren un enlace explícito con evidencia.
+Si falta NIF, también se exige ese enlace. Un NIF contradictorio siempre bloquea.
+
+CONSULTAS DE SOLO LECTURA
+
+REST GET /gestion/alumnos/{alumno_nif}/id y /gestion/alumnos/{alumno_id}.
+GraphQL allGrupos(first: 100, skip: ..., order: "id") y grupo(id: ID), con
+grupoalumnoSet y alumno { id nif }. Consultas completas en integrations/clients.py.
+No se permiten mutaciones GraphQL ni métodos REST de escritura.
+
+El catálogo se pagina hasta numitems. Totales cambiantes, IDs repetidos o páginas
+incompletas provocan error. grupoalumnoSet no tiene paginación en el SDL: se consume
+su lista completa. Si el servidor impone límites no documentados, aclararlos antes
+de aceptar el resultado como completo. Ausencia nunca significa baja.
+Límites: 300 vínculos, 100 páginas de catálogo, 20.000 matrículas y 8 MiB por respuesta.
+Cada petición tiene 20 segundos y un reintento ante fallos transitorios. El límite
+aproximado de cinco minutos se comprueba entre peticiones, sin cortar una en curso.
+
+CONFIGURACIÓN EN EL SERVIDOR
+
+Mantener SEPE_API_ENABLED=0 durante la revisión. Editar .env con valores reales:
+
+  SEPE_INTERNAL_BASE_URL=https://portal.example/gestion/api
+  SEPE_INTERNAL_USERNAME=USUARIO_DE_LECTURA
+  SEPE_INTERNAL_PASSWORD=SECRETO_REAL
+  SEPE_GESTION_GRAPHQL_URL=https://gestion.example/graphql
+  SEPE_GESTION_TOKEN=TOKEN_REAL
+  SEPE_GESTION_AUTH_SCHEME=Bearer
+
+Las URL son ejemplos. El cliente añade /gestion/alumnos/... a la base REST.
+Con ese ejemplo, la ficha sería https://portal.example/gestion/api/gestion/alumnos/123.
+Esto reproduce el servidor relativo /gestion/api más la ruta del OpenAPI. Confirmar
+el prefijo real, sin quitar ni duplicar «gestion» por intuición.
+Prefijos de token: Bearer, JWT, Token o raw. raw envía Authorization sin prefijo.
+Si se requiere otra cabecera, habrá que adaptar el cliente; el SDL no lo especifica.
+Activar SEPE_API_ENABLED=1 cuando se confirme el contrato y ejecutar:
+
+  docker compose up -d --build
+
+Las credenciales de las APIs son independientes de las cuentas de los gestores.
+Las claves de simulación aportadas no se incorporan a la distribución. No pegar
+secretos en campos de la web. .env se excluye del ZIP y de la imagen Docker.
+Se exige HTTPS, se valida el certificado y se rechazan redirecciones. Las URL
+no admiten credenciales, parámetros ni fragmento. Los errores no muestran cuerpos
+de respuesta ni cabeceras. Los valores de conexión permanecen en el servidor.
+
+RECORRIDO EN CONEXIONES API
+
+1. Entrar como administrador. Probar Simulación sin conexión: usa una copia aislada
+   y dos alumnos ficticios. Un final no validado queda listo; «baja» se excluye.
+   La simulación nunca se puede aplicar a alumnos reales.
+2. Consultar grupos de Gestión: ID, código, nombre, expediente y fechas. Esta
+   consulta necesita configuración completa de las dos conexiones.
+3. Añadir vínculo: elegir grupo remoto y fila local, comprobando entidad, expediente,
+   acción y sede. Un grupo solo admite una fila local. Los filtros superiores no
+   limitan esta configuración. Si el grupo o matrícula declara otro expediente,
+   se bloquea la unión. Si no lo declara, contrastarlo en la evidencia del vínculo.
+4. Campos personales REST: rutas simples separadas por puntos dentro de Alumno.
+   Ejemplo de sintaxis: empresa.cif. NO es un campo declarado en el esquema recibido.
+   Dejar vacío lo no disponible; documentar los campos confirmados y su significado.
+   Opciones: ccaa, company, company_name, sector, employment, priority, as_of.
+   Valores escalares; priority requiere booleano real. as_of es la fecha de vigencia
+   y debe contrastarse con el inicio del curso. Sin ella se muestra una advertencia.
+5. Equivalencias laborales: ocupado, desempleado, autonomo, erte. Lo no mapeado
+   queda desconocido. No deducir situación laboral del estado de matrícula.
+6. Estados: claves en minúsculas y sin tildes; destinos matriculado, iniciado,
+   finalizado, abandono, anulado, sustituido. El mapa inicial solo reconoce esos
+   literales. «Alta», «baja», «final» y códigos propios requieren documentación.
+7. Sectores por expediente: listas exactas own (propio), other (otro), evidence.
+   No clasificado significa desconocido. Para desempleados se usa no_aplica.
+   Este mapa clasifica datos; no fija un porcentaje ni una penalización legal.
+8. Enlaces de identidad: ID alumno Gestión -> rest_id, evidence. Para matrículas
+   manuales previas: ID matrícula Gestión -> local_id, evidence. Exigen relaciones
+   unívocas. Las matrículas manuales de un curso deben conciliarse antes de importar.
+
+CCAA Y FECHAS
+
+Primero se utiliza la CCAA REST explícita y reconocida. Si falta, se puede inferir
+del prefijo provincial del CP, solo con país España explícito. Se identifica como
+inferida, con CP y regla. Un país ausente o extranjero queda pendiente. Una CCAA
+explícita no reconocida no se oculta con una inferencia. Revisar la vigencia del
+domicilio al inicio; el CP actual no la acredita.
+finicio y ffin del grupo se muestran para contraste. No sustituyen el calendario
+local ni el plazo confirmado de la convocatoria. Usar Fechas límite con evidencia.
+
+REVISAR Y APLICAR
+
+Consultar APIs reales prepara un resultado en segundo plano. Solo una consulta
+puede estar activa. No existe sincronización periódica. Se muestran listos,
+excluidos, ausentes, incompletos, finales comunicados y finales validados.
+Aplicar guarda todas las filas listas en una transacción; las excluidas permanecen
+pendientes. Fallos globales de transporte o validación no producen lote aplicable.
+La tabla muestra las primeras 100 filas; recuentos y aplicación abarcan todo el lote.
+Las vistas previas caducan a los 30 minutos. Cambios de otro usuario provocan 409:
+consultar otra vez. No se puede aplicar dos veces un trabajo ni guardar la simulación.
+
+La ausencia conserva el registro anterior sin convertirlo en baja. Repetir datos
+idénticos mantiene las revisiones. Al cambiar datos o reglas se conserva historial
+y se invalidan revisiones anteriores. Correcciones manuales exigen evidencia y
+quedan identificadas; identidad y curso se corrigen en los vínculos de integración.
+Alumnos > Ver origen muestra identidades, última consulta, estado original, campo,
+regla, pendientes, correcciones e historial. Ver cálculo y fuente sigue mostrando
+numerador, denominador y registros usados. Los desconocidos no se convierten en cero.
+
+ACTUALIZAR UNA INSTALACIÓN ANTERIOR
+
+1. Hacer copia con python app.py backup y custodiarla fuera del servidor.
+2. Sustituir código conservando .env, secreto y volumen sepe_data.
+3. Añadir las nuevas variables a .env, inicialmente con SEPE_API_ENABLED=0.
+4. Ejecutar docker compose up -d --build. La tabla de consultas se crea al arrancar;
+   se mantienen catálogo, cuentas, matrículas, socios y tareas. No usar down -v.
+5. Probar roles y simulación; después configurar vínculos y activar conexiones.
+
+Un reinicio puede dejar un trabajo en curso hasta caducar. Al iniciar otra consulta
+después de 30 minutos se marca caducado. Los payloads de más de un día se limpian
+al empezar nuevas consultas; metadatos y matrículas conservan historial. Incluir
+estas instantáneas temporales en la política de conservación de copias.
+
+VALIDACIÓN Y PENDIENTES
+
+60 pruebas automatizadas pasan: cálculos, fechas, agrupación, contratos de consultas,
+autenticación, paginación, cruce de identidades, estados ambiguos, idempotencia,
+permisos, concurrencia y guardado atómico. Se ejecutaron 13 vistas y 13 diálogos.
+La revisión en navegador de conexiones y simulación utiliza respuestas ficticias.
+Las APIs reales, Docker y HTTPS deben verificarse en destino.
+
+Falta confirmar el servicio REST correcto, campos ausentes, las dos URL, credenciales,
+prefijo de token y vocabulario de estados. Después conciliar totales por grupo y
+comprobar que las respuestas son completas. Mantener las comprobaciones pendientes
+de fechas, repartos aprobados, socios, B.1/B.2 y criterio legal de otros sectores.
+La integración no resuelve esos compromisos ni acredita una liquidación oficial.

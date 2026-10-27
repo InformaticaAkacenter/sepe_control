@@ -1,0 +1,1154 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"""
+The `Date` scalar type represents a Date
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar Date
+
+"""
+The `Time` scalar type represents a Time value as
+specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar Time
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+"""
+Leverages the internal Python implementation of UUID (uuid.UUID) to provide native UUID objects
+in fields, resolvers and input.
+"""
+scalar UUID
+
+"""
+Create scalar that ignores normal serialization/deserialization, since
+that will be handled by the multipart request spec
+"""
+scalar Upload
+
+type Query {
+  allAlumnos(grupoIds: [Int], first: Int, skip: Int, order: String, filtros: [FiltroType], search: String, filtrosOr: [FiltroType]): AlumnoNumItemsType
+  allAlumnosMoodle(grupoId: Int, first: Int, skip: Int, order: String, filtros: [FiltroType], search: String, filtrosOr: [FiltroType]): AlumnosMoodleNumItemsType
+  allPersonal(first: Int, skip: Int, order: String, filtros: [FiltroType], search: String, filtrosOr: [FiltroType]): PersonalNumItemsType
+  allEmpresas(first: Int, skip: Int, order: String, filtros: [FiltroType], search: String, filtrosOr: [FiltroType]): EmpresaNumItemsType
+  allPreinscripciones(grupoId: ID!, first: Int, skip: Int, order: String, filtros: [FiltroType], search: String, filtrosOr: [FiltroType]): PreinscripcionNumItemsType
+  allAuditorias(search: String, first: Int, skip: Int): AuditoriaNumItemsType
+  allGrupos(first: Int, skip: Int, order: String, filtros: [FiltroType], search: String, filtrosOr: [FiltroType]): GrupoNumItemsType
+  allExamenes(grupoId: ID, mfId: ID, ufId: ID, tipo: String, fechaDesde: Date, fechaHasta: Date, incluirEnInforme: Boolean, first: Int, skip: Int, order: String, filtros: [FiltroType], search: String, filtrosOr: [FiltroType]): ExamenUnidadFormativaNumItemsType
+  fechasGrupo(grupoId: ID!, mfId: ID, ufId: ID, tipoExamen: String): FechasGrupoType
+  informeGeneralGrupo(grupoId: ID!): InformeGeneralGrupoType
+  personalNif(nif: String!): [PersonalType]
+  empresaCif(cif: String!): [EmpresaType]
+  preinscripcion(id: ID!): PreinscripcionType
+  alumno(id: ID!): AlumnoType
+  alumnoNif(nif: String!): [AlumnoType]
+  auditoria(id: Int!): AuditoriaType
+  grupo(id: ID!): GrupoType
+  examen(id: ID!): ExamenUnidadFormativaType
+  me: UserType
+  user(email: String): UserType
+  groups: [GroupType]
+  group(id: Int): GroupType
+  hello: String
+  securedData: String
+}
+
+type AlumnoNumItemsType {
+  numitems: Int
+  items: [AlumnoType]
+}
+
+type AlumnoType {
+  id: ID!
+  nombre: String!
+  apellidos: String!
+  nif: String!
+  fnacimiento: Date
+  sexo: String
+  email: String
+  telefono: String
+  domicilio: String
+  codpostal: String
+  latlong: String
+  foto: String
+  organizacion: String
+  emailtrabajo: String
+  telefonotrabajo: String
+  telefonocasa: String
+  ciudad: String
+  provincia: String
+  pais: String
+  estado: String
+  sector: String
+  estudios: String
+  entregadocv: Boolean!
+  discapacidad: Boolean!
+  sceFsolicituddoc: Date
+  sceFentregadoc: Date
+  sceFpruebaseleccion: Date
+  sceEntregadahojapreinscripcion: Boolean!
+  sceEntregadodarde: Boolean!
+  sceEntregadodni: Boolean!
+  sceEntregadocv: Boolean!
+  sceEntregadatitulacion: Boolean!
+  sceObservaciones: String
+  sceEtiquetas: String
+  sceNivelestudios: String
+  sceMatriculado: Boolean!
+  sceFbaja: Date
+  sceEdadfmatricula: Int
+  sceIban: String
+  funcatraFinicioentregadoc: Date
+  funcatraFfinentregadoc: Date
+  funcatraEntregadahp: Boolean!
+  funcatraCabeceranomina: String
+  funcatraEntregadodarde: Boolean!
+  funcatraEntregadodni: Boolean!
+  funcatraEntregadocv: Boolean!
+  funcatraEntregadatitulacion: Boolean!
+  funcatraObservaciones: String
+  funcatraEtiquetas: String
+  funcatraNivelestudios: String
+  funcatraMatriculado: Boolean!
+  funcatraNumsegsocial: String
+  funcatraEdadfmatricula: Int
+  funcatraDiscapacitado: String
+  funcatraEstudios: String
+  funcatraColectivo: String
+  funcatraCategoria: String
+  funcatraArea: String
+  funcatraSectorconvenio: String
+  funcatraRazonsocial: String
+  funcatraCif: String
+  funcatraNissentidad: String
+  funcatraDomicilioentidad: String
+  funcatraCodpostalentidad: String
+  funcatraSituacion: String
+  funcatraDemandante: String
+  funcatraCalificacion: String
+  funcatraNota: String
+  funcatraIban: String
+  funcatraBic: String
+  funcatraFechademanda: Date
+  funcatraOficinaempleo: String
+  funcatraFechaincorporacion: Date
+  fundaeNumsegsocial: String
+  fundaeDiscapacidad: Boolean!
+  fundaeNivelestudios: String
+  fundaeCategoria: String
+  fundaeGrupocotizacion: String
+  fundaeCifempresa: String
+  fundaeRazonsocial: String
+  fundaeCuentacotizacion: String
+  privadosNumcuenta: String
+  emailcentro: String
+  observaciones: String
+  espacio: String
+  notificaciones: Boolean!
+  documentoalumnoSet: [DocumentoAlumnoType!]!
+  grupoalumnoSet: [GrupoAlumnoType!]!
+}
+
+type DocumentoAlumnoType {
+  id: ID!
+  alumno: AlumnoType!
+  fecha: Date
+  descripcion: String
+  documento: String
+  hash: String
+  url: String
+  categoria: GestionDocumentoAlumnoCategoriaChoices!
+  tieneVigencia: Boolean!
+  fechaVigencia: Date
+  todosGrupos: Boolean!
+  grupos: [GrupoType!]!
+  preinscripciondocumento: PreinscripcionDocumentoType
+  ficheroNoDisponible: Boolean!
+}
+
+type GrupoType {
+  id: ID!
+  codigo: String
+  nombre: String
+  responsable: String
+  financiacion: FinanciacionGrupoType
+  finicio: Date
+  ffin: Date
+  plazas: Int!
+  sede: SedeType
+  rotaciondefecto: Int!
+  modular: Boolean!
+  usarfestivos: Boolean!
+  cronograma: Boolean!
+  csvfile: String
+  bloqueado: Boolean!
+  nivelestudios: String
+  resolucionessscan: String
+  urlexterna: String
+  anotacionesCaptacion: String
+  altaModular: Boolean!
+  encuestaAuto: Boolean!
+  encuestaReviewGoogle: Boolean!
+  actcalidadpropiocentro: String
+  accionescentroconclusionessce: String
+  actresultadoscuestionarios: String
+  actcentroevalformacionpractica: String
+  recursosactevaluacioncontrol: String
+  conclusionesevalcalidad: String
+  finalidadaccionformativa: String
+  controlescalidadrealizados: String
+  accionesmejorafuturas: String
+  publicar: Boolean!
+  gestionado: Boolean!
+  plazasOcupadas: Int!
+  """
+  sólo tiene en cuenta la fecha de inicio y la duración total del curso según los MF
+  """
+  ffinAproxSinua: Date
+  puntuacionMediaEncuesta: Float
+  puntuacionMediaDocenteEncuesta: Float
+  certificadoProfesionalidad: Boolean!
+  asignadoDocente: Boolean!
+  alertaExamenesTeoricoPractico: Boolean!
+  anexoivNuevo: Boolean!
+  publicarInformeGeneral: Boolean!
+  ffinTotal: Date
+  numpreinscripciones: Int!
+  horariogrupoSet: [HorarioGrupoType!]!
+  documentogrupoSet: [DocumentoGrupoType!]!
+  grupopersonalSet: [GrupoPersonalType!]!
+  documentosAlumno: [DocumentoAlumnoType!]!
+  grupoalumnoSet: [GrupoAlumnoType!]!
+  moduloformativoSet: [ModuloFormativoType!]!
+  preinscripciongrupoSet: [PreinscripcionGrupoType!]!
+}
+
+type FinanciacionGrupoType {
+  id: ID!
+  nombre: String!
+  anyo: Int
+  expediente: String
+  abierta: Boolean!
+  envioanexovii: Boolean!
+  opcionFichaInscripcion: GestionFinanciacionGrupoOpcionFichaInscripcionChoices
+  sector: String
+  emailPlanFormacion: String
+  grupoSet: [GrupoType!]!
+  grupoalumnoSet: [GrupoAlumnoType!]!
+}
+
+type GrupoAlumnoType {
+  id: ID!
+  grupo: GrupoType!
+  alumno: AlumnoType!
+  financiacion: FinanciacionGrupoType
+  empresa: EmpresaType
+  estadomatricula: String
+  falta: Date
+  fbaja: Date
+  motivobaja: String
+  altaModular: Boolean!
+  nombre: String
+  apellidos: String
+  nif: String
+  fnacimiento: Date
+  sexo: String
+  email: String
+  telefono: String
+  domicilio: String
+  codpostal: String
+  organizacion: String
+  emailtrabajo: String
+  telefonotrabajo: String
+  telefonocasa: String
+  ciudad: String
+  provincia: String
+  pais: String
+  estado: String
+  estudios: String
+  entregadocv: Boolean!
+  discapacidad: Boolean!
+  sceFsolicituddoc: Date
+  sceFentregadoc: Date
+  sceFpruebaseleccion: Date
+  sceEntregadahojapreinscripcion: Boolean!
+  sceEntregadodarde: Boolean!
+  sceEntregadodni: Boolean!
+  sceEntregadocv: Boolean!
+  sceEntregadatitulacion: Boolean!
+  sceObservaciones: String
+  sceEtiquetas: String
+  sceNivelestudios: String
+  sceMatriculado: Boolean!
+  sceFbaja: Date
+  sceEdadfmatricula: Int
+  sceIban: String
+  funcatraFinicioentregadoc: Date
+  funcatraFfinentregadoc: Date
+  funcatraEntregadahp: Boolean!
+  funcatraCabeceranomina: String
+  funcatraEntregadodarde: Boolean!
+  funcatraEntregadodni: Boolean!
+  funcatraEntregadocv: Boolean!
+  funcatraEntregadatitulacion: Boolean!
+  funcatraObservaciones: String
+  funcatraEtiquetas: String
+  funcatraNivelestudios: String
+  funcatraMatriculado: Boolean!
+  funcatraNumsegsocial: String
+  funcatraEdadfmatricula: Int
+  funcatraDiscapacitado: String
+  funcatraEstudios: String
+  funcatraColectivo: String
+  funcatraCategoria: String
+  funcatraArea: String
+  funcatraSectorconvenio: String
+  funcatraRazonsocial: String
+  funcatraCif: String
+  funcatraNissentidad: String
+  funcatraDomicilioentidad: String
+  funcatraCodpostalentidad: String
+  funcatraSituacion: String
+  funcatraDemandante: String
+  funcatraCalificacion: String
+  funcatraNota: String
+  funcatraIban: String
+  funcatraBic: String
+  funcatraFechademanda: Date
+  funcatraOficinaempleo: String
+  funcatraFechaincorporacion: Date
+  fundaeNumsegsocial: String
+  fundaeDiscapacidad: Boolean!
+  fundaeNivelestudios: String
+  fundaeCategoria: String
+  fundaeGrupocotizacion: String
+  fundaeCifempresa: String
+  fundaeRazonsocial: String
+  fundaeCuentacotizacion: String
+  privadosNumcuenta: String
+  emailcentro: String
+  mostrarenapp: Boolean!
+  edadComienzoCurso: Int
+}
+
+type EmpresaType {
+  id: ID!
+  """Máximo 255 caracteres."""
+  nombre: String!
+  nombrelegal: String
+  cif: String!
+  interna: Boolean!
+  email: String
+  telefono: String
+  domicilio: String
+  codpostal: String
+  iban: String
+  fupdateiban: Date
+  poblacion: String
+  provincia: String
+  fax: String
+  cuentacotizacion: String
+  conveniocolectivo: String
+  existerlt: Boolean!
+  """Empresas de menos de 250 trabajadores"""
+  pyme: Boolean!
+  fcreacion: Date
+  cnae: String
+  actividadeconomica: String
+  asesoria: String
+  repreapellidos: String
+  reprenombre: String
+  reprenif: String
+  reprecargo: String
+  """Inscripción Registro Mercantil"""
+  podernotarial: String
+  tieneconvenio: Boolean!
+  fechafirmaconvenio: Date
+  tramitadopara: String
+  cliente: Boolean!
+  proveedor: Boolean!
+  rse: Boolean!
+  agenciacolocacion: Boolean!
+  practicasempresas: Boolean!
+  funcatra: Boolean!
+  pe1repreapellidos: String
+  pe1reprenombre: String
+  pe1reprenif: String
+  pe1reprecargo: String
+  pe2repreapellidos: String
+  pe2reprenombre: String
+  pe2reprenif: String
+  pe2reprecargo: String
+  petiporepresentacion: GestionEmpresaPetiporepresentacionChoices!
+  personacontacto: String
+  sector: GestionEmpresaSectorChoices!
+  contactodireccion: String
+  emaildireccion: String
+  cargo: String
+  credito: Float!
+  grupoalumnoSet: [GrupoAlumnoType!]!
+}
+
+type SedeType {
+  id: ID!
+  nombre: String!
+  domicilio: String
+  codpostal: String
+  emailenvios: String
+  smsenvios: String
+  activo: Boolean!
+  grupoSet: [GrupoType!]!
+}
+
+type HorarioGrupoType {
+  id: ID!
+  grupo: GrupoType!
+  dias: String
+  turno: GestionHorarioGrupoTurnoChoices!
+  horadesde: Time!
+  horahasta: Time!
+  fdesde: Date
+  fhasta: Date
+}
+
+type DocumentoGrupoType {
+  id: ID!
+  grupo: GrupoType!
+  fecha: Date
+  descripcion: String
+  documento: String
+  hash: String
+  url: String
+}
+
+type GrupoPersonalType {
+  id: ID!
+  grupo: GrupoType!
+  personal: PersonalType!
+}
+
+type PersonalType {
+  id: ID!
+  tipo: TipoPersonalType!
+  nombre: String!
+  apellidos: String!
+  nif: String
+  fnacimiento: Date
+  sexo: GestionPersonalSexoChoices!
+  email: String
+  telefono: String
+  extension3cx: String
+  domicilio: String
+  codpostal: String
+  foto: String
+  iban: String
+  fupdateiban: Date
+  salario: String!
+  activo: Boolean!
+  email2: String
+  numsegsocial: String
+  direccioncentro: String
+  refgestoria: String
+  user: UserType
+  emergencia: String
+  fechahora: DateTime
+  userCambio: UserType
+  grupopersonalSet: [GrupoPersonalType!]!
+  documentopersonalSet: [DocumentoPersonalType!]!
+}
+
+type TipoPersonalType {
+  id: ID!
+  nombre: String!
+  personalSet: [PersonalType!]!
+}
+
+type UserType {
+  password: String!
+  lastLogin: DateTime
+  """
+  Los grupos a los que pertenece este usuario. Un usuario tendrá todos los permisos asignados a cada uno de sus grupos.
+  """
+  groups: [GroupType!]!
+  id: UUID!
+  email: String!
+  isActive: Boolean!
+  isStaff: Boolean!
+  isSuperuser: Boolean!
+  username: String
+  firstName: String
+  lastName: String
+  createdAt: DateTime!
+  loginCount: Int!
+  personalSet: [PersonalType!]!
+  personalUserCambio: [PersonalType!]!
+}
+
+type GroupType {
+  id: ID!
+  name: String!
+  """
+  Los grupos a los que pertenece este usuario. Un usuario tendrá todos los permisos asignados a cada uno de sus grupos.
+  """
+  userSet: [UserType!]!
+}
+
+type DocumentoPersonalType {
+  id: ID!
+  personal: PersonalType!
+  fecha: Date
+  descripcion: String
+  documento: String
+  hash: String
+  url: String
+  visible: Boolean!
+}
+
+type ModuloFormativoType {
+  id: ID!
+  grupo: GrupoType!
+  """Máximo 20 caracteres."""
+  codigo: String!
+  """Máximo 255 caracteres."""
+  nombre: String!
+  duracion: Float!
+  pteorico: Float!
+  tipoEvaluacion: GestionModuloFormativoTipoEvaluacionChoices!
+  descripcion: String
+  orden: Int!
+  color: String!
+  enviadaencuesta: Boolean!
+  especialidadsepe: Boolean!
+  moduloFem: Boolean!
+  duracionFem: Float!
+  unidadformativaSet: [UnidadFormativaType!]!
+}
+
+type UnidadFormativaType {
+  id: ID!
+  moduloformativo: ModuloFormativoType!
+  """Máximo 20 caracteres."""
+  codigo: String
+  """Máximo 255 caracteres."""
+  nombre: String!
+  duracion: Float!
+  descripcion: String
+  orden: Int!
+  color: String!
+  pteorico: Float!
+  """Máximo 255 caracteres."""
+  unidadcompetencia: String
+  examenunidadformativaSet: [ExamenUnidadFormativaType!]!
+}
+
+type ExamenUnidadFormativaType {
+  id: ID!
+  unidadformativa: UnidadFormativaType!
+  fecha: Date!
+  tipo: GestionExamenUnidadFormativaTipoChoices!
+  hora: Time
+  duracion: Float!
+  descripcion: String
+  instrumentos: String
+  estado: GestionExamenUnidadFormativaEstadoChoices!
+  enviado: Boolean!
+  fenvio: Date
+  numpreguntas: Int!
+  nombre: String
+  destrezaasociada: ExamenUnidadFormativaType
+  urlMoodle: String
+  incluirEnInforme: Boolean!
+  examenunidadformativaSet: [ExamenUnidadFormativaType!]!
+  grupo: GrupoType
+  tipoNombre: String
+  estadoNombre: String
+}
+
+type PreinscripcionGrupoType {
+  id: ID!
+  preinscripcion: PreinscripcionType!
+  grupo: GrupoType!
+  tratada: Boolean!
+  observaciones: String
+  estado: GestionPreinscripcionGrupoEstadoChoices
+  altaModular: Boolean!
+  documentacionCompleta: Boolean!
+  matriculado: Boolean!
+  checkDocumentacion: [CheckDocumentacionItemType]
+}
+
+type PreinscripcionType {
+  id: ID!
+  fechahora: DateTime!
+  nif: String!
+  nombre: String!
+  apellidos: String!
+  fnacimiento: Date
+  email: String
+  telefono: String
+  tratada: Boolean!
+  espacio: GestionPreinscripcionEspacioChoices!
+  notas: String
+  domicilio: String
+  codpostal: String
+  ciudad: String
+  estudios: String
+  hash: String
+  situacionlaboral: String
+  sector: String
+  solicitudinformacion: SolicitudInformacionType
+  darde: String
+  validadodarde: Boolean!
+  preferenciacontacto: GestionPreinscripcionPreferenciacontactoChoices!
+  preferenciahoraria: String
+  permitecomercial: Boolean!
+  adicional: String
+  urlorigen: String
+  urlExterna: String
+  """Puntuación total de las respuestas"""
+  sumaTotalRespuestas: Int
+  ordenDocumentos: Int!
+  preinscripciongrupoSet: [PreinscripcionGrupoType!]!
+  preinscripciondocumentoSet: [PreinscripcionDocumentoType!]!
+  grupos: [GrupoType]
+  alumno: AlumnoType
+  documentos: [PreinscripcionDocumentoType]
+  idUltimoDocumento: Int
+  todosDocumentosAlumno: [DocumentoAlumnoType]
+  sumaRespuestas: Int
+  urlUpdate: String
+  enviaUrlAnexovii: Boolean
+  urlAnexovii: String
+}
+
+type SolicitudInformacionType {
+  id: ID!
+  fechahora: DateTime!
+  nif: String!
+  nombre: String!
+  apellidos: String!
+  email: String
+  telefono: String
+  interes: String
+  tratada: Boolean!
+  aceptalopd: Boolean!
+  espacio: GestionSolicitudInformacionEspacioChoices!
+  preferenciacontacto: GestionSolicitudInformacionPreferenciacontactoChoices!
+  preferenciahoraria: String
+  preinscripcionSet: [PreinscripcionType!]!
+  accionesFormativas: [AccionFormativaType]
+  alumno: AlumnoType
+  preinscripcion: Boolean
+}
+
+type AccionFormativaType {
+  id: ID!
+  codigo: String
+  nombre: String!
+  modular: Boolean!
+  hpresenciales: Float!
+  hteleformacion: Float!
+  hdistancia: Float!
+  contenido: String!
+  objetivos: String
+  medios: String
+  realdecreto: String
+  nivelestudios: String
+  familiaprofesional: String
+  publicar: Boolean!
+  anexoivNuevo: Boolean!
+}
+
+type PreinscripcionDocumentoType {
+  id: ID!
+  preinscripcion: PreinscripcionType!
+  documento: String
+  hash: String
+  titulo: String
+  documentosAlumno: [DocumentoAlumnoType!]!
+}
+
+type CheckDocumentacionItemType {
+  id: Int
+  documentacion: String
+  checked: Boolean
+}
+
+type AlumnosMoodleNumItemsType {
+  grupo: GrupoType
+  alumnos: GrupoAlumnoNumItemsType
+  docentes: [PersonalType]
+}
+
+type GrupoAlumnoNumItemsType {
+  numitems: Int
+  items: [GrupoAlumnoType]
+}
+
+type PersonalNumItemsType {
+  numitems: Int
+  items: [PersonalType]
+}
+
+type EmpresaNumItemsType {
+  numitems: Int
+  items: [EmpresaType]
+}
+
+type PreinscripcionNumItemsType {
+  numitems: Int
+  items: [PreinscripcionType]
+}
+
+type AuditoriaNumItemsType {
+  numitems: Int
+  items: [AuditoriaType]
+}
+
+type AuditoriaType {
+  id: ID!
+  fechahora: DateTime!
+  operacion: GestionAuditoriaOperacionChoices!
+  tabla: String!
+  detalle: String
+  usuario: String!
+}
+
+type GrupoNumItemsType {
+  numitems: Int
+  items: [GrupoType]
+}
+
+type ExamenUnidadFormativaNumItemsType {
+  numitems: Int
+  items: [ExamenUnidadFormativaType]
+}
+
+type FechasGrupoType {
+  id: Int
+  nombre: String
+  finicio: Date
+  ffin: Date
+  ffinAproxSinUa: Date
+  ffinTotal: Date
+  fecha25: Date
+  fecha50: Date
+  fecha75: Date
+  modulosFormativos: [FechasModuloFormativoType]
+}
+
+type FechasModuloFormativoType {
+  id: Int
+  codigo: String
+  nombre: String
+  fcomienzo: Date
+  ffinalizacion: Date
+  fecha50: Date
+  fecha75: Date
+  unidadesFormativas: [FechasUnidadFormativaType]
+}
+
+type FechasUnidadFormativaType {
+  id: Int
+  codigo: String
+  nombre: String
+  finicio: Date
+  ffin: Date
+  examenes: [FechasExamenUFType]
+  unidadesAprendizaje: [FechasUnidadAprendizajeType]
+}
+
+type FechasExamenUFType {
+  id: Int
+  nombre: String
+  tipo: String
+  fecha: Date
+  hora: Time
+  fenvio: Date
+  urlMoodle: String
+}
+
+type FechasUnidadAprendizajeType {
+  id: Int
+  nombre: String
+  finicio: Date
+  ffin: Date
+}
+
+type InformeGeneralGrupoType {
+  grupo: GrupoType
+  tiposExamen: [TipoExamenType]
+  horarios: [HorarioGrupoType]
+  unidadesFormativas: [UFInformeType]
+}
+
+type TipoExamenType {
+  codigo: String
+  nombre: String
+}
+
+type UFInformeType {
+  id: Int
+  nombre: String
+  duracion: Float
+  finicio: Date
+  ffin: Date
+  examenes: [ExamenUFInformeType]
+  unidadesAprendizaje: [UAInformeType]
+}
+
+type ExamenUFInformeType {
+  id: Int
+  nombre: String
+  tipo: String
+  tipoNombre: String
+  fecha: Date
+  hora: Time
+  fenvio: Date
+}
+
+type UAInformeType {
+  id: Int
+  nombre: String
+  duracion: Float
+  duracionClase: Float
+  docentes: [PersonalType]
+}
+
+type Mutation {
+  subirDocumentoGrupo(
+    descripcion: String,
+    """Fichero a subir (requerido si no se indica url_google_drive)"""
+    documento: Upload,
+    fecha: Date,
+    grupoId: ID!,
+    """URL de Google Drive (requerida si no se sube documento)"""
+    urlGoogleDrive: String,
+  ): SubirDocumentoGrupo
+  subirDocumentoAlumno(
+    alumnoId: ID!,
+    """
+    DN (DNI), FI (Ficha inscripción), VL (Vida laboral), ES (Estudios), OT (Otro, por defecto)
+    """
+    categoria: String,
+    descripcion: String,
+    """Fichero a subir (requerido si no se indica url_google_drive)"""
+    documento: Upload,
+    fecha: Date,
+    """Si se indica, el documento tiene vigencia hasta esa fecha"""
+    fechaVigencia: Date,
+    """Grupos (matriculado o preinscrito) a los que asociar el documento"""
+    grupoIds: [ID],
+    """Asociar a todos los grupos del alumno (también futuros)"""
+    todosGrupos: Boolean,
+    """URL de Google Drive (requerida si no se sube documento)"""
+    urlGoogleDrive: String,
+  ): SubirDocumentoAlumno
+  updatePreinscripcion(adicional: String, apellidos: String, ciudad: String, codpostal: String, darde: String, domicilio: String, email: String, espacio: String, estudios: String, fnacimiento: Date, id: ID!, nif: String, nombre: String, notas: String, permitecomercial: Boolean, preferenciacontacto: String, preferenciahoraria: String, provinciaId: ID, sector: String, situacionlaboral: String, telefono: String, tratada: Boolean, urlExterna: String, urlorigen: String, validadodarde: Boolean): UpdatePreinscripcion
+  """
+  Guarda (upsert) las notas de una lista de alumnos (por NIF) en un ExamenUnidadFormativa.
+  Devuelve ok=True si todos los registros se guardaron sin errores, y la lista de errores
+  encontrados (p.ej. NIF no encontrado en el grupo o nota inválida).
+  """
+  guardarNotasExamen(examenId: ID!, notas: [NotaExamenInput!]!): GuardarNotasExamen
+  tokenAuth(email: String!, password: String!): ObtainOAuth2Token
+  refreshToken(refreshToken: String!): RefreshOAuth2Token
+}
+
+type SubirDocumentoGrupo {
+  documentoGrupo: DocumentoGrupoType
+}
+
+type SubirDocumentoAlumno {
+  documentoAlumno: DocumentoAlumnoType
+}
+
+type UpdatePreinscripcion {
+  preinscripcion: PreinscripcionType
+}
+
+"""
+Guarda (upsert) las notas de una lista de alumnos (por NIF) en un ExamenUnidadFormativa.
+Devuelve ok=True si todos los registros se guardaron sin errores, y la lista de errores
+encontrados (p.ej. NIF no encontrado en el grupo o nota inválida).
+"""
+type GuardarNotasExamen {
+  ok: Boolean
+  guardadas: Int
+  errores: [String]
+}
+
+type ObtainOAuth2Token {
+  accessToken: String
+  refreshToken: String
+  expiresIn: Int
+  tokenType: String
+}
+
+type RefreshOAuth2Token {
+  accessToken: String
+  expiresIn: Int
+  tokenType: String
+}
+
+"""An enumeration."""
+enum GestionDocumentoAlumnoCategoriaChoices {
+  """DNI"""
+  DN
+  """Ficha inscripción"""
+  FI
+  """Vida laboral"""
+  VL
+  """Estudios"""
+  ES
+  """Otro"""
+  OT
+}
+
+"""An enumeration."""
+enum GestionFinanciacionGrupoOpcionFichaInscripcionChoices {
+  """Anexo I (SEPE)"""
+  A1
+  """Anexo III (Educación)"""
+  A3
+  """Anexo IV oc (SCE)"""
+  A7
+  """Anexo IX"""
+  A9
+  """CONTR. GRADOS"""
+  CG
+}
+
+"""An enumeration."""
+enum GestionEmpresaPetiporepresentacionChoices {
+  """AUTÓNOMO"""
+  A
+  """MANCOMUNADO"""
+  M
+  """SOLIDARIO"""
+  S
+}
+
+"""An enumeration."""
+enum GestionEmpresaSectorChoices {
+  """HOTEL"""
+  H
+  """RESTAURANTE"""
+  R
+  """COMERCIO"""
+  C
+  """CONSTRUCCIÓN"""
+  N
+  """OTROS"""
+  O
+}
+
+"""An enumeration."""
+enum GestionHorarioGrupoTurnoChoices {
+  """MAÑANA"""
+  M
+  """TARDE"""
+  T
+}
+
+"""An enumeration."""
+enum GestionPersonalSexoChoices {
+  """Masculino"""
+  M
+  """Femenino"""
+  F
+}
+
+"""An enumeration."""
+enum GestionModuloFormativoTipoEvaluacionChoices {
+  """Evaluación por Unidades Formativas"""
+  UF
+  """Evaluación por Módulo Formativo"""
+  MF
+}
+
+"""An enumeration."""
+enum GestionExamenUnidadFormativaTipoChoices {
+  """EVALUACIÓN CONTINUA"""
+  EC
+  """EV. FINAL - TEÓRICO"""
+  FT
+  """EV. FINAL - PRÁCTICO"""
+  FP
+  """RECUPERACIÓN - TEÓRICO"""
+  RT
+  """RECUPERACIÓN - PRÁCTICO"""
+  RP
+  """DESTREZAS"""
+  CC
+  """DESTREZAS - RECUPERACIÓN"""
+  DR
+  """FEM"""
+  FE
+}
+
+"""An enumeration."""
+enum GestionExamenUnidadFormativaEstadoChoices {
+  """SIN REVISAR"""
+  A_1
+  """FALTA EXAMEN DEL DOCENTE"""
+  A_2
+  """EN REVISIÓN"""
+  A_3
+  """REVISADO PENDIENTE DOCENTE"""
+  A_4
+  """REVISADO OK"""
+  A_5
+}
+
+"""An enumeration."""
+enum GestionPreinscripcionEspacioChoices {
+  """LANZAROTE"""
+  A_1
+  """GRAN CANARIA"""
+  A_2
+  """**EMPRESA"""
+  A_3
+  """LA PALMA"""
+  A_4
+  """LA GOMERA"""
+  A_5
+  """FUERTEVENTURA"""
+  A_6
+  """TENERIFE"""
+  A_7
+  """LA GRACIOSA"""
+  A_8
+  """EL HIERRO"""
+  A_9
+  """PENÍNSULA"""
+  P
+}
+
+"""An enumeration."""
+enum GestionSolicitudInformacionEspacioChoices {
+  """LANZAROTE"""
+  A_1
+  """GRAN CANARIA"""
+  A_2
+  """**EMPRESA"""
+  A_3
+  """LA PALMA"""
+  A_4
+  """LA GOMERA"""
+  A_5
+  """FUERTEVENTURA"""
+  A_6
+  """TENERIFE"""
+  A_7
+  """LA GRACIOSA"""
+  A_8
+  """EL HIERRO"""
+  A_9
+  """PENÍNSULA"""
+  P
+}
+
+"""An enumeration."""
+enum GestionSolicitudInformacionPreferenciacontactoChoices {
+  """TELÉFONO"""
+  T
+  """E-MAIL"""
+  E
+}
+
+"""An enumeration."""
+enum GestionPreinscripcionPreferenciacontactoChoices {
+  """TELÉFONO"""
+  T
+  """E-MAIL"""
+  E
+}
+
+"""An enumeration."""
+enum GestionPreinscripcionGrupoEstadoChoices {
+  """No interesado"""
+  A_1
+  """No cumple requisitos"""
+  A_2
+  """No se localiza"""
+  A_3
+  """(Obsol.)No entrega documentación"""
+  A_4
+  """Pendiente matrícula"""
+  A_5
+  """Pendiente prueba de nivel"""
+  A_6
+  """Duplicada"""
+  A_7
+  """Interesado/a"""
+  A_8
+  """Reserva Ocupado"""
+  A_9
+  """Arraigo por Formación"""
+  A
+  """Reserva Desempleado"""
+  R
+  """(Obsol.)Prematriculado"""
+  P
+  """Doc. completa"""
+  D
+  """Pendiente doc"""
+  E
+  """Volver a llamar"""
+  V
+  """No molestar"""
+  Z
+  """Isla Errónea"""
+  I
+  """Ninguno"""
+  NONE
+}
+
+"""An enumeration."""
+enum GestionAuditoriaOperacionChoices {
+  """Login"""
+  L
+  """Create"""
+  C
+  """Read"""
+  R
+  """Update"""
+  U
+  """Delete"""
+  D
+}
+
+input FiltroType {
+  campo: String
+  valor: String
+  tipo: String
+  tabla: String
+  campo2: String
+}
+
+input NotaExamenInput {
+  nif: String!
+  """Valor numérico 0-10, o EX / NP / NX"""
+  nota: String!
+}
+
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!,
+) on SCALAR
+
+"""Indicates an Input Object is a OneOf Input Object."""
+directive @oneOf on INPUT_OBJECT
+
